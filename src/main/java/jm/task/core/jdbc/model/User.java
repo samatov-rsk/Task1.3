@@ -1,9 +1,9 @@
 package jm.task.core.jdbc.model;
 
-import javax.persistence.*;
+import javax.persistence.*; //TODO импорты без звездочек
 
 @Entity
-@Table(name = "userstable")
+@Table(name = "userstable") //TODO на будущее так не называть
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class User {
 
     public User() {
 
-    }
+    }//TODO отступ
     public User(long id){
         this.id = id;
     }

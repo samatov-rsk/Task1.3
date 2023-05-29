@@ -17,10 +17,10 @@ import javax.persistence.Query;
 
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
-
+//TODO везде отступы и импорты!!!
 public class UserDaoHibernateImpl implements UserDao {
 
-    public UserDaoHibernateImpl() {
+    public UserDaoHibernateImpl() {//TODO дефолтный и так имеется
 
     }
 
@@ -29,7 +29,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void createUsersTable() {
         Session session = getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-
+        //TODO название переменной sql не пойдет, называй переменную в соответсвии с запросом
         String sql = "CREATE TABLE IF NOT EXISTS userstable " +
                 "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " +
@@ -46,8 +46,8 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Transaction transaction = session.beginTransaction();//TODO можно же без создания переменной transaction
+        //TODO название переменной sql не пойдет, называй переменную в соответсвии с запросом
         String sql = "DROP TABLE IF EXISTS userstable";
 
         Query query = session.createSQLQuery(sql).addEntity(User.class);
@@ -82,7 +82,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = getSessionFactory().openSession();
         session.beginTransaction();
         List<User> users = session.createQuery("from User").getResultList();
-        for(User u : users){
+        for(User u : users){//TODO это зачем? у тебя юзеры летят в return
             System.out.println(u);
         }
         session.getTransaction().commit();

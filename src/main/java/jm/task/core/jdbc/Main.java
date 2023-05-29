@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         UserServiceImpl userDao = new UserServiceImpl();
         userDao.createUsersTable();
-//        userDao.dropUsersTable();
+//        userDao.dropUsersTable();//TODO это зачем?
         userDao.saveUser("Ruslan", "Samatov", (byte) 25);
         userDao.saveUser("Ruslan2", "Samatov", (byte) 25);
         userDao.saveUser("Ruslan3", "Samatov", (byte) 25);

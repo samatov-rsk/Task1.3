@@ -3,10 +3,10 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.*;
+import java.sql.*; //TODO без *
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO исправить этот класс в соответствии с замечаниями в Task 1.2
 public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 

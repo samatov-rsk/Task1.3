@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+//TODO отступы и импорты!!!
 public class Util {
     private static SessionFactory sessionFactory;
     public static SessionFactory getSessionFactory() {
