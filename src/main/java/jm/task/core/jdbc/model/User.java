@@ -1,9 +1,14 @@
 package jm.task.core.jdbc.model;
 
-import javax.persistence.*; //TODO импорты без звездочек
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
 
 @Entity
-@Table(name = "userstable") //TODO на будущее так не называть
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

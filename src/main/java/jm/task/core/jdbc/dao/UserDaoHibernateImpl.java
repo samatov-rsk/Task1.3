@@ -3,56 +3,37 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 
 import java.util.List;
-import java.util.Properties;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
-import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.Query;
 
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
-//TODO везде отступы и импорты!!!
 public class UserDaoHibernateImpl implements UserDao {
-
-    public UserDaoHibernateImpl() {//TODO дефолтный и так имеется
-
-    }
-
 
     @Override
     public void createUsersTable() {
         Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        //TODO название переменной sql не пойдет, называй переменную в соответсвии с запросом
-        String sql = "CREATE TABLE IF NOT EXISTS userstable " +
+        session.beginTransaction();
+        String createUsersTable = "CREATE TABLE IF NOT EXISTS users " +
                 "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " +
                 "age TINYINT NOT NULL)";
-
-        Query query = session.createSQLQuery(sql).addEntity(User.class);
+        Query query = session.createSQLQuery(createUsersTable).addEntity(User.class);
         query.executeUpdate();
-        transaction.commit();
+        session.getTransaction().commit();
         session.close();
-
-
     }
 
     @Override
     public void dropUsersTable() {
         Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();//TODO можно же без создания переменной transaction
-        //TODO название переменной sql не пойдет, называй переменную в соответсвии с запросом
-        String sql = "DROP TABLE IF EXISTS userstable";
-
-        Query query = session.createSQLQuery(sql).addEntity(User.class);
+        session.beginTransaction();
+        String dropTable = "DROP TABLE IF EXISTS users";
+        Query query = session.createSQLQuery(dropTable).addEntity(User.class);
         query.executeUpdate();
-        transaction.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
@@ -63,7 +44,6 @@ public class UserDaoHibernateImpl implements UserDao {
         User user = new User(name, lastName, age);
         session.save(user);
         session.getTransaction().commit();
-
     }
 
     @Override
@@ -72,7 +52,7 @@ public class UserDaoHibernateImpl implements UserDao {
         session.beginTransaction();
         User user = new User(id);
         id = user.getId();
-        User user1 = session.get(User.class,id);
+        User user1 = session.get(User.class, id);
         session.remove(user1);
         session.getTransaction().commit();
     }
@@ -82,9 +62,6 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = getSessionFactory().openSession();
         session.beginTransaction();
         List<User> users = session.createQuery("from User").getResultList();
-        for(User u : users){//TODO это зачем? у тебя юзеры летят в return
-            System.out.println(u);
-        }
         session.getTransaction().commit();
         return users;
     }

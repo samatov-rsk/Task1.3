@@ -3,33 +3,34 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.*; //TODO без *
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-//TODO исправить этот класс в соответствии с замечаниями в Task 1.2
-public class UserDaoJDBCImpl implements UserDao {
-    public UserDaoJDBCImpl() {
 
-    }
+
+public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
-        String create = "CREATE TABLE IF NOT EXISTS USERSTABLE" +
+        String createUsersTable = "CREATE TABLE IF NOT EXISTS users" +
                 "(id INTEGER NOT NULL AUTO_INCREMENT," +
                 "name VARCHAR(100) not null, " +
                 "lastname VARCHAR(100) not null, " +
                 "age INTEGER (128) not null, " +
                 "PRIMARY KEY(id))";
         try (Statement statement = Util.getConnection().createStatement()) {
-            statement.execute(create);
+            statement.execute(createUsersTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void dropUsersTable() {
-        String drob = "DROP TABLE IF EXISTS USERSTABLE";
-        try (Statement statement = Util.getConnection().createStatement();) {
-            statement.execute(drob);
+        String drobUsersTable = "DROP TABLE IF EXISTS users";
+        try (Statement statement = Util.getConnection().createStatement()) {
+            statement.execute(drobUsersTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,30 +38,24 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName, age);
-        name = user.getName();
-        lastName = user.getLastName();
-        age = user.getAge();
         String save = "INSERT INTO USERSTABLE (name, lastname, age) VALUES(?,?,?)";
         try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(save)) {
-
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setByte(3, age);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setByte(3, user.getAge());
 
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void removeUserById(long id) {
-        String remove = "DELETE FROM USERSTABLE WHERE id=?";
+        String removeUser = "DELETE FROM users WHERE id=?";
         User user = new User(id);
-        id = user.getId();
 
-        try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(remove)) {
-            preparedStatement.setLong(1, id);
+        try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(removeUser)) {
+            preparedStatement.setLong(1, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,10 +64,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-        String get = "SELECT id, name, lastname, age from USERSTABLE";
+        String getAllQuery = "SELECT id, name, lastname, age from users";
         try (Statement statement = Util.getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(get);
-            while(resultSet.next()){
+            ResultSet resultSet = statement.executeQuery(getAllQuery);
+            while (resultSet.next()) { // Оставил создание юзера потому что не подобрал другой локиги. Название и тип возращаемого значения задавала Ката.
+                // поэтому я создал юзера, Пока есть значения в таблице == true добавил в Юзера значение с таблицы и добавил этого Юзера в лист. Вернул лист.
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setName(resultSet.getString("name"));
@@ -84,17 +80,15 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(userList);
         return userList;
     }
 
     public void cleanUsersTable() {
-        String clean = "TRUNCATE USERSTABLE";
-        try(PreparedStatement preparedStatement = Util.getConnection().prepareStatement(clean)){
+        String cleanUsers = "TRUNCATE USERSTABLE";
+        try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(cleanUsers)) {
             preparedStatement.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }
