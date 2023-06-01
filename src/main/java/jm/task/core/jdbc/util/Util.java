@@ -26,16 +26,16 @@ public class Util {
                 settings.put(Environment.USER,USERNAME);
                 settings.put(Environment.PASS, PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-
-
+//TODO лишний отступ
+//TODO лишний отступ
                 settings.put(Environment.SHOW_SQL, "true");
-
+//TODO лишний отступ
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
+//TODO лишний отступ
                 settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
                 configuration.setProperties(settings);
-
+//TODO лишний отступ
                 configuration.addAnnotatedClass(User.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
