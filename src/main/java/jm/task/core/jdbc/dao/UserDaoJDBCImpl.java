@@ -28,9 +28,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        String drobUsersTable = "DROP TABLE IF EXISTS users";//TODO drob?
+        String dropUsersTable = "DROP TABLE IF EXISTS users";
         try (Statement statement = Util.getConnection().createStatement()) {
-            statement.execute(drobUsersTable);
+            statement.execute(dropUsersTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,8 +67,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String getAllQuery = "SELECT id, name, lastname, age from users";
         try (Statement statement = Util.getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(getAllQuery);
-            while (resultSet.next()) { // Оставил создание юзера потому что не подобрал другой локиги. Название и тип возращаемого значения задавала Ката.
-                // поэтому я создал юзера, Пока есть значения в таблице == true добавил в Юзера значение с таблицы и добавил этого Юзера в лист. Вернул лист.//TODO ок. убери коммент
+            while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setName(resultSet.getString("name"));
